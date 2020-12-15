@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vote-bot
-  namespace: emojivoto
+  namespace: ev-vote-bot
   labels:
     app.kubernetes.io/name: vote-bot
     app.kubernetes.io/part-of: emojivoto
@@ -24,7 +24,7 @@ spec:
         - emojivoto-vote-bot
         env:
         - name: WEB_HOST
-          value: web-svc.emojivoto:80
+          value: web-svc.ev-web:80
         image: buoyantio/emojivoto-web:v11
         name: vote-bot
         resources:

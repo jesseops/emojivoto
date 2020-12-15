@@ -1,0 +1,97 @@
+---
+# Source: wfrbac-user/templates/user-rbac.yaml
+
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: developer-quota
+  namespace: ev-web
+  labels:
+    app: "release-name"
+    heritage: "Tiller"
+    chart: wfrbac-user-1.0.5
+    release: "release-name"
+    version: "1.0"
+    component: "application"
+spec:
+  hard:
+    pods: "20"
+    requests.cpu: "10"
+    requests.memory: "25Gi"
+    limits.cpu: "100"
+    limits.memory: "250Gi"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer-exec
+  namespace: ev-web
+  labels:
+    app: "release-name"
+    heritage: "Tiller"
+    chart: wfrbac-user-1.0.5
+    release: "release-name"
+    version: "1.0"
+    component: "application"
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "delete"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-exec
+  namespace: ev-web
+  labels:
+    app: "release-name"
+    heritage: "Tiller"
+    chart: wfrbac-user-1.0.5
+    release: "release-name"
+    version: "1.0"
+    component: "application"
+subjects:
+  - kind: Group
+    name: oidc:res-kubernetes-cluster-viewer # Meta group managed by IAM team
+    namespace: ev-web
+roleRef:
+  kind: Role
+  name: developer-exec
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Source: wfrbac-user/templates/psp-rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wfrbac-user-rb
+  namespace: ev-web
+  labels:
+    app: "release-name"
+    heritage: "Tiller"
+    chart: wfrbac-user-1.0.5
+    release: "release-name"
+    version: "1.0"
+    component: "application"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: "wf:psp:basic-unprivileged"
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:serviceaccounts
+  - kind: ServiceAccount
+    name: web
+
+---
+# Source: wfrbac-user/templates/tekton-rbac.yaml
+
+

@@ -4,3 +4,14 @@ resources:
 - emoji.yml
 - voting.yml
 - vote-bot.yml
+patchesStrategicMerge:
+- wayfair_deploy.yml
+
+images:
+- name: buoyantio/emojivoto-web
+  newName: external-staging/buoyantio/emojivoto-web
+- name: buoyantio/emojivoto-voting-svc
+  newName: external-staging/buoyantio/emojivoto-voting-svc
+- name: buoyantio/emojivoto-emoji-svc
+  newName: external-staging/buoyantio/emojivoto-emoji-svc
+

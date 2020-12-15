@@ -2,13 +2,13 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: voting
-  namespace: emojivoto
+  namespace: ev-voting
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: voting
-  namespace: emojivoto
+  namespace: ev-voting
   labels:
     app.kubernetes.io/name: voting
     app.kubernetes.io/part-of: emojivoto
@@ -47,7 +47,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: voting-svc
-  namespace: emojivoto
+  namespace: ev-voting
 spec:
   selector:
     app: voting-svc
