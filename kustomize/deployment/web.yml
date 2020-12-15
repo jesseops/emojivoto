@@ -33,7 +33,7 @@ spec:
         - name: EMOJISVC_HOST
           value: emoji-svc.ev-emoji:8080
         - name: VOTINGSVC_HOST
-          value: voting-svc.ev-emoji:8080
+          value: voting-svc.ev-voting:8080
         - name: INDEX_BUNDLE
           value: dist/index_bundle.js
         image: buoyantio/emojivoto-web:v11
