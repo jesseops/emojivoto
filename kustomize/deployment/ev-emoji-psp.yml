@@ -72,6 +72,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: wfrbac-user-rb
+  namespace: ev-emoji
   labels:
     app: "release-name"
     heritage: "Tiller"
